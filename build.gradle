@@ -1,0 +1,32 @@
+plugins {
+    id 'edu.wpi.first.GradleRIO' version '2021.3.1' apply false
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'edu.wpi.first.GradleRIO'
+
+    group 'com.regisjesuit'
+    version '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        implementation wpi.deps.wpilib()
+
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+        compileOnly 'org.projectlombok:lombok:1.18.22'
+        annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+        testCompileOnly 'org.projectlombok:lombok:1.18.22'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+    }
+    test {
+        useJUnitPlatform()
+    }
+}
+
