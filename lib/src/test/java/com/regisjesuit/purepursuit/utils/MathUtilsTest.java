@@ -39,17 +39,17 @@ class MathUtilsTest {
     @Test
     void circleIntersection_DoesIntersect_ReturnsCorrect() {
         assertEquals(0.5,
-            MathUtils.circleIntersectionWithLine(new Point2d(1, 2), new Point2d(3, 2), new Point2d(3, 2), 1));
+                MathUtils.circleIntersectionWithLine(new Point2d(1, 2), new Point2d(3, 2), new Point2d(3, 2), 1));
         assertEquals(0.5,
-            MathUtils.circleIntersectionWithLine(new Point2d(3, 2), new Point2d(1, 2), new Point2d(3, 2), 1));
+                MathUtils.circleIntersectionWithLine(new Point2d(3, 2), new Point2d(1, 2), new Point2d(3, 2), 1));
     }
 
     @Test
     void circleIntersection_DoesNotIntersect_ReturnsCorrect() {
         assertEquals(-1,
-            MathUtils.circleIntersectionWithLine(new Point2d(0, 2), new Point2d(1, 2), new Point2d(3, 2), 1));
+                MathUtils.circleIntersectionWithLine(new Point2d(0, 2), new Point2d(1, 2), new Point2d(3, 2), 1));
         assertEquals(-1,
-            MathUtils.circleIntersectionWithLine(new Point2d(5, 2), new Point2d(6, 2), new Point2d(3, 2), 1));
+                MathUtils.circleIntersectionWithLine(new Point2d(5, 2), new Point2d(6, 2), new Point2d(3, 2), 1));
     }
 
     @Test

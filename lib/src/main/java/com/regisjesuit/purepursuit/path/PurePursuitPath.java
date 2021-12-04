@@ -5,15 +5,13 @@ import static com.regisjesuit.purepursuit.utils.MathUtils.sqr;
 
 import com.regisjesuit.purepursuit.utils.MathUtils;
 import com.regisjesuit.purepursuit.utils.Vector2d;
-import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Add your docs here.
  */
-public class PurePursuitPath implements Sendable {
+public class PurePursuitPath {
 
     private List<PathPoint> points = new ArrayList<>();
     private final double maxVelocity;
@@ -97,9 +95,9 @@ public class PurePursuitPath implements Sendable {
                 double newY = currentPoint.getY();
 
                 newX += a * (beforeSmoothingPoint.getX() - currentPoint.getX())
-                    + b * (previousPoint.getX() + nextPoint.getX() - 2 * currentPoint.getX());
+                        + b * (previousPoint.getX() + nextPoint.getX() - 2 * currentPoint.getX());
                 newY += a * (beforeSmoothingPoint.getY() - currentPoint.getY())
-                    + b * (previousPoint.getY() + nextPoint.getY() - 2 * currentPoint.getY());
+                        + b * (previousPoint.getY() + nextPoint.getY() - 2 * currentPoint.getY());
 
                 change += Math.abs(currentPoint.getX() - newX);
                 change += Math.abs(currentPoint.getY() - newY);
@@ -156,13 +154,8 @@ public class PurePursuitPath implements Sendable {
             PathPoint nextPoint = points.get(i + 1);
 
             currentPoint.setVelocity(Math.min(currentPoint.getMaxVelocity(), Math.sqrt(
-                sqr(nextPoint.getVelocity()) + 2 * maxAcceleration * PathPoint.distance(currentPoint, nextPoint))));
+                    sqr(nextPoint.getVelocity()) + 2 * maxAcceleration * PathPoint.distance(currentPoint, nextPoint))));
         }
         System.out.println(points.get(3).getVelocity());
-    }
-
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        builder.addDoubleProperty("Size", points::size, null);
     }
 }

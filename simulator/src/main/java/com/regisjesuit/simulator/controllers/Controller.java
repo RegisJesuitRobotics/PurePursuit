@@ -11,8 +11,7 @@ public class Controller {
 
     public Canvas canvas;
 
-    public void onMouseMove(MouseEvent mouseEvent) {
-    }
+    public void onMouseMove(MouseEvent mouseEvent) {}
 
     public void onCanvasClick(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
@@ -22,6 +21,5 @@ public class Controller {
         }
     }
 
-    public void runButtonClick(MouseEvent mouseEvent) {
-    }
+    public void runButtonClick(MouseEvent mouseEvent) {}
 }

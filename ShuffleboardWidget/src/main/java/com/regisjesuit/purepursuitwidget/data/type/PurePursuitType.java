@@ -16,18 +16,15 @@ public class PurePursuitType extends ComplexDataType<PurePursuitData> {
     @Override
     @SuppressWarnings("unchecked")
     public Function<Map<String, Object>, PurePursuitData> fromMap() {
-        return map -> new PurePursuitData(
-            (double[]) map.getOrDefault("xValues", new double[0]),
-            (double[]) map.getOrDefault("yValues", new double[0]),
-            (double) map.getOrDefault("robotX", 0.0),
-            (double) map.getOrDefault("robotY", 0.0),
-            (double) map.getOrDefault("lookaheadDistance", 1.0),
-            (double) map.getOrDefault("lookaheadCurvature", 0.0)
-            );
+        return map -> new PurePursuitData((double[]) map.getOrDefault("xValues", new double[0]),
+                (double[]) map.getOrDefault("yValues", new double[0]), (double) map.getOrDefault("robotX", 0.0),
+                (double) map.getOrDefault("robotY", 0.0), (double) map.getOrDefault("lookaheadDistance", 1.0),
+                (double) map.getOrDefault("lookaheadCurvature", 0.0), (double) map.getOrDefault("lookaheadX", 0.0),
+                (double) map.getOrDefault("lookaheadY", 0.0));
     }
 
     @Override
     public PurePursuitData getDefaultValue() {
-        return new PurePursuitData(new double[0], new double[0], 0, 0, 1, 0);
+        return new PurePursuitData(new double[0], new double[0], 0, 0, 1, 0, 0, 0);
     }
 }

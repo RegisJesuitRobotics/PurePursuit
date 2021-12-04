@@ -10,10 +10,14 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation wpi.deps.wpilib()
 }
 
 test {
     useJUnitPlatform()
+}
+
+tasks.register("installLibrary", Copy) {
+    from(tasks.named("jar"))
+    into("../../AllRobots/libs")
 }

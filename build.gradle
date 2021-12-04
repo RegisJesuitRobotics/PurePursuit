@@ -1,11 +1,13 @@
 plugins {
-    id 'edu.wpi.first.GradleRIO' version '2021.3.1' apply false
+    id 'com.diffplug.spotless' version '5.5.0'
+    id "edu.wpi.first.GradleRIO" version "2021.3.1"
 }
 
-allprojects {
+subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'edu.wpi.first.GradleRIO'
+    apply plugin: 'com.diffplug.spotless'
 
     group 'com.regisjesuit'
     version '1.0.0'
@@ -13,9 +15,8 @@ allprojects {
     repositories {
         mavenCentral()
     }
-    dependencies {
-        implementation wpi.deps.wpilib()
 
+    dependencies {
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 
@@ -28,5 +29,30 @@ allprojects {
     test {
         useJUnitPlatform()
     }
+    tasks.register('updateGitHooks', Copy) {
+        from '../scripts/pre-commit'
+        into '../.git/hooks'
+    }
+
+    compileJava.dependsOn updateGitHooks
 }
+
+spotless {
+    java {
+        target fileTree('.') {
+            include '**/*.java'
+            exclude '**/build/**', '**/build-*/**'
+        }
+        toggleOffOn()
+        eclipse().configFile('RJFormat.xml')
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
 

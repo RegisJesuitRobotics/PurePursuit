@@ -19,7 +19,7 @@ public class PurePursuit implements Sendable {
     private final double trackWidthMeters;
     private final Point2d lookaheadPoint = new Point2d(0, 0);
     private double lookaheadDistance;
-    private Pose2d currentPosition;
+    private Pose2d currentPosition = new Pose2d();
     private int closestPointIndex = 0;
     private double lookaheadFractionalIndex = 0;
     private double lookaheadCurvature = 0;
@@ -47,7 +47,6 @@ public class PurePursuit implements Sendable {
                 closestPointIndex = i;
             }
         }
-        SmartDashboard.putNumber("Closest point", closestPointIndex);
     }
 
     private void updateLookaheadIndex() {
@@ -56,9 +55,8 @@ public class PurePursuit implements Sendable {
         for (int i = (int) lookaheadFractionalIndex; i < points.size() - 1; i++) {
             PathPoint currentPoint = points.get(i);
             PathPoint nextPoint = points.get(i + 1);
-            double intersection = MathUtils.circleIntersectionWithLine(currentPoint.getPoint(),
-                nextPoint.getPoint(),
-                currentPositionPoint, lookaheadDistance);
+            double intersection = MathUtils.circleIntersectionWithLine(currentPoint.getPoint(), nextPoint.getPoint(),
+                    currentPositionPoint, lookaheadDistance);
 
             if (intersection >= 0) {
                 // We don't want to go backwards
@@ -74,22 +72,21 @@ public class PurePursuit implements Sendable {
                 break;
             }
         }
-        SmartDashboard.putNumber("Lookahead Index", lookaheadFractionalIndex);
     }
 
     private void updateLookaheadCurvature() {
-        double a = Math.tan(-currentPosition.getRotation().getRadians());
-        double b = 1;
-        double c = a * currentPosition.getX() - currentPosition.getY();
+        double aValue = -Math.tan(currentPosition.getRotation().getRadians());
+        double bValue = 1;
+        double cValue = Math.tan(currentPosition.getRotation().getRadians()) * currentPosition.getX()
+                - currentPosition.getY();
 
-        double x = Math.abs(
-            (a * lookaheadPoint.x + b * lookaheadPoint.y + c) / MathUtils.distanceFormula(a, b));
-        lookaheadCurvature = 2 * x / sqr(lookaheadDistance);
-        lookaheadCurvature *= Math.signum(Math.sin(-currentPosition.getRotation().getRadians())
-            * (lookaheadPoint.x - currentPosition.getX())
-            - Math.cos(-currentPosition.getRotation().getRadians()) * (lookaheadPoint.y
-            - currentPosition.getY()));
-        SmartDashboard.putNumber("Lookahead curvature", lookaheadCurvature);
+        double xValue = Math.abs(aValue * lookaheadPoint.x + bValue * lookaheadPoint.y + cValue)
+                / Math.sqrt(sqr(aValue) + sqr(bValue));
+        double side = Math.signum(Math.sin(currentPosition.getRotation().getRadians())
+                * (lookaheadPoint.x - currentPosition.getX())
+                - Math.cos(currentPosition.getRotation().getRadians()) * (lookaheadPoint.y - currentPosition.getY()));
+
+        this.lookaheadCurvature = (2 * xValue * side) / sqr(lookaheadDistance);
     }
 
     public DifferentialDriveWheelSpeeds calculate(Pose2d currentPosition) {
@@ -100,10 +97,9 @@ public class PurePursuit implements Sendable {
         updateLookaheadCurvature();
 
         double pointTargetVelocity = path.getPoints().get(closestPointIndex).getVelocity();
-        SmartDashboard.putNumber("Point Target Velocity", pointTargetVelocity);
 
-        double leftSpeed = pointTargetVelocity * (2 - lookaheadCurvature * trackWidthMeters) / 2;
-        double rightSpeed = pointTargetVelocity * (2 + lookaheadCurvature * trackWidthMeters) / 2;
+        double leftSpeed = pointTargetVelocity * (2 + lookaheadCurvature * trackWidthMeters) / 2;
+        double rightSpeed = pointTargetVelocity * (2 - lookaheadCurvature * trackWidthMeters) / 2;
 
         return new DifferentialDriveWheelSpeeds(leftSpeed, rightSpeed);
     }
@@ -128,9 +124,13 @@ public class PurePursuit implements Sendable {
         builder.addDoubleArrayProperty("xValues", () -> xValues, null);
         builder.addDoubleArrayProperty("yValues", () -> yValues, null);
         builder.addDoubleProperty("robotX", () -> currentPosition.getX(), null);
-        builder.addDoubleProperty("robotY", () -> currentPosition.getX(), null);
+        builder.addDoubleProperty("robotY", () -> currentPosition.getY(), null);
         builder.addDoubleProperty("lookaheadDistance", () -> lookaheadDistance, value -> {
             lookaheadDistance = value;
         });
+        builder.addDoubleProperty("lookaheadCurvature", () -> lookaheadCurvature, null);
+        builder.addDoubleProperty("lookaheadX", () -> lookaheadPoint.x, null);
+        builder.addDoubleProperty("lookaheadY", () -> lookaheadPoint.y, null);
+
     }
 }

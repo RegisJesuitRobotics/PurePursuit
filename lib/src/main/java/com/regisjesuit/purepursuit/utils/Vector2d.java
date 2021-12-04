@@ -70,4 +70,3 @@ public class Vector2d {
         return new Vector2d(0, 0);
     }
 }
-

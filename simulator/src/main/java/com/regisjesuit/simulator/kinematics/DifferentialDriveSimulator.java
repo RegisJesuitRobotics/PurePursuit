@@ -15,7 +15,7 @@ public class DifferentialDriveSimulator {
 
     /**
      *
-     * @param trackWidth The distance between left wheel and right wheel (m)
+     * @param trackWidth        The distance between left wheel and right wheel (m)
      * @param maxVelocityChange The maximum velocity change (m/s)
      */
     public DifferentialDriveSimulator(double trackWidth, double maxVelocityChange) {

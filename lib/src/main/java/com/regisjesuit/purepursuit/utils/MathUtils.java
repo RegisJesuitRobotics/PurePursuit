@@ -18,7 +18,7 @@ public class MathUtils {
         double k2 = (y1 - y2) / (x1 - x2);
 
         double b = 0.5 * (sqr(x2) - 2 * x2 * k1 + sqr(y2) - sqr(x3) + 2 * x3 * k1 - sqr(y3))
-            / (x3 * k2 - y3 + y2 - x2 * k2);
+                / (x3 * k2 - y3 + y2 - x2 * k2);
         double a = k1 - k2 * b;
 
         double r = Math.sqrt(sqr(x1 - a) + sqr(y1 - b));
@@ -49,7 +49,7 @@ public class MathUtils {
      *         intersects the circle
      */
     public static double circleIntersectionWithLine(Point2d lineStart, Point2d lineEnd, Point2d circleCenter,
-        double circleRadius) {
+            double circleRadius) {
         // https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
         Vector2d d = Vector2d.fromPoints(lineStart, lineEnd);
         Vector2d f = Vector2d.fromPoints(circleCenter, lineStart);
