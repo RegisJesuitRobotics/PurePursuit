@@ -111,7 +111,8 @@ public class PurePursuitPath {
     }
 
     /**
-     * Calculates the curvature of a point using `MathUtils.getCurvature()`
+     * Calculates the curvature of a point using
+     * <code>MathUtils.getCurvature()</code>
      */
     public void calculateCurvatures() {
         for (int i = 1; i < points.size() - 1; i++) {
@@ -126,8 +127,8 @@ public class PurePursuitPath {
 
     /**
      * Calculates maximum target velocity for each point using velocityConstant /
-     * curvature. `PurePursuitPath#calculateCurvatures` should be called before
-     * this!
+     * curvature. <code>PurePursuitPath#calculateCurvatures</code> should be called
+     * before this!
      *
      * @param velocityConstant how fast a bot should go around a turn. (1-5
      *                         recommended)
@@ -142,7 +143,8 @@ public class PurePursuitPath {
 
     /**
      * Calculates the target velocity for each point.
-     * `PurePursuitPath#calculateMaxVelocities` should be called before this!
+     * <code>PurePursuitPath#calculateMaxVelocities</code> should be called before
+     * this!
      *
      * @param maxAcceleration The maximum acceleration in m/s
      */

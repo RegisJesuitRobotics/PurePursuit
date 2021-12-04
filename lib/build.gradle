@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.regisjesuit'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 repositories {
     mavenCentral()
@@ -17,7 +17,22 @@ test {
     useJUnitPlatform()
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+jar{
+    from sourceSets.main.allSource
+}
+
 tasks.register("installLibrary", Copy) {
     from(tasks.named("jar"))
     into("../../AllRobots/libs")
+//    from(tasks.named("sourcesJar"))
+//    into("../../AllRobots/libs")
 }
