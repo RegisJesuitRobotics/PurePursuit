@@ -8,7 +8,8 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/com.regisjesuit.simulator/main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(
+            "main.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
         primaryStage.setTitle("Pure Pursuit Simulator");

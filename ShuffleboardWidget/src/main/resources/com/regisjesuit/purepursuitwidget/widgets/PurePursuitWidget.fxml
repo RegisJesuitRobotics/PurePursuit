@@ -1,0 +1,3 @@
+<?import javafx.scene.layout.*?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.regisjesuit.purepursuitwidget.widgets.PurePursuitWidget" fx:id="root">
+</StackPane>
