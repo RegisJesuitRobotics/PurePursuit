@@ -27,7 +27,6 @@ repositories {
 
 dependencies {
     compileOnly group: "edu.wpi.first.shuffleboard", name: "api", version: "2021.3.1"
-    implementation project(":lib")
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'

@@ -8,7 +8,6 @@ import java.util.Arrays;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -17,29 +16,57 @@ import javafx.scene.paint.Color;
 @ParametrizedController("PurePursuitWidget.fxml")
 public class PurePursuitWidget extends SimpleAnnotatedWidget<PurePursuitData> {
 
-    @FXML
-    public Label curve;
     private Canvas pathLayer;
     private Canvas robotLayer;
+    private Canvas robotPathLayer;
     @FXML
     private StackPane root;
 
+    private double lastRobotX;
+    private double lastRobotY;
+
     @FXML
     private void initialize() {
-        curve.textProperty()
-                .bind(dataOrDefault.map(purePursuitData -> String.valueOf(purePursuitData.getLookaheadCurvature())));
         pathLayer = new Canvas(651 + 10, 315 + 10);
+        robotPathLayer = new Canvas(651 + 10, 315 + 10);
         robotLayer = new Canvas(651 + 10, 315 + 10);
-        Pane canvasStacker = new Pane(pathLayer, robotLayer);
+        Pane canvasStacker = new Pane(pathLayer, robotPathLayer, robotLayer);
         root.getChildren().add(canvasStacker);
         dataOrDefault.addListener((observable, oldValue, newValue) -> {
             if (!Arrays.equals(oldValue.getXValues(), newValue.getXValues())
                     || !Arrays.equals(oldValue.getYValues(), newValue.getYValues())) {
                 drawPoints();
+                clearRobotPath();
+            }
+            if (oldValue.getRobotX() != newValue.getRobotX() || oldValue.getRobotY() != newValue.getRobotY()) {
+                drawRobotPath();
             }
             drawRobot();
-
         });
+    }
+
+    private void clearRobotPath() {
+        GraphicsContext gc = robotPathLayer.getGraphicsContext2D();
+        gc.clearRect(0, 0, robotPathLayer.getWidth(), robotPathLayer.getHeight());
+        lastRobotX = Double.NaN;
+        lastRobotY = Double.NaN;
+    }
+
+    private void drawRobotPath() {
+        GraphicsContext gc = robotPathLayer.getGraphicsContext2D();
+        gc.setStroke(Color.ORANGE);
+        gc.setLineWidth(2.0);
+        if (Double.isNaN(lastRobotX) || Double.isNaN(lastRobotY)) {
+            lastRobotX = dataOrDefault.get().getRobotX();
+            lastRobotY = dataOrDefault.get().getRobotY();
+            return;
+        }
+        gc.moveTo(transX(lastRobotX), transY(lastRobotY));
+        gc.lineTo(transX(dataOrDefault.get().getRobotX()), transY(dataOrDefault.get().getRobotY()));
+        gc.stroke();
+
+        lastRobotX = dataOrDefault.get().getRobotX();
+        lastRobotY = dataOrDefault.get().getRobotY();
     }
 
     private void drawRobot() {

@@ -1,0 +1,4 @@
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.regisjesuit.purepursuitwidget.widgets.PurePursuitWidget" fx:id="root" prefHeight="350" prefWidth="670">
+</StackPane>
