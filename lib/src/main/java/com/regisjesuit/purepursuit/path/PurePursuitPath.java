@@ -5,6 +5,8 @@ import static com.regisjesuit.purepursuit.utils.MathUtils.sqr;
 
 import com.regisjesuit.purepursuit.utils.MathUtils;
 import com.regisjesuit.purepursuit.utils.Vector2d;
+
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +17,19 @@ public class PurePursuitPath {
 
     private List<PathPoint> points = new ArrayList<>();
     private final double maxVelocity;
+    private final double defaultLookaheadDistance;
 
-    public PurePursuitPath(double maxVelocity) {
+    public PurePursuitPath(double maxVelocity, double defaultLookaheadDistance) {
         this.maxVelocity = maxVelocity;
+        this.defaultLookaheadDistance = defaultLookaheadDistance;
     }
 
     public void addPoint(double x, double y) {
-        points.add(new PathPoint(x, y));
+        points.add(new PathPoint(x, y, defaultLookaheadDistance));
+    }
+
+    public void addPoint(double x, double y, double customLookaheadDistance) {
+        points.add(new PathPoint(x, y, customLookaheadDistance));
     }
 
     public int getSize() {
@@ -61,9 +69,14 @@ public class PurePursuitPath {
             double xAdditive = vector2d.getX() * spacing;
             double yAdditive = vector2d.getY() * spacing;
 
-            for (int j = 0; j < amountOfPointsToAdd; j++) {
+            int amountForStart = (int) (amountOfPointsToAdd / 2);
+
+            for (int j = 0; j < amountForStart; j++) {
                 // As we get farther from the original point add more of the additive
-                newPoints.add(new PathPoint(startPoint.getX() + (xAdditive * j), startPoint.getY() + (yAdditive * j)));
+                newPoints.add(new PathPoint(startPoint.getX() + (xAdditive * j), startPoint.getY() + (yAdditive * j), startPoint.getLookaheadDistance()));
+            }
+            for (int j = amountForStart; j < amountOfPointsToAdd; j++) {
+                newPoints.add(new PathPoint(startPoint.getX() + (xAdditive * j), startPoint.getY() + (yAdditive * j), endPoint.getLookaheadDistance()));
             }
         }
         newPoints.add(points.get(points.size() - 1)); // Add the last point

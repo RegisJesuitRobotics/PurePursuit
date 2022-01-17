@@ -8,18 +8,18 @@ import org.junit.jupiter.api.Test;
 class MathUtilsTest {
     @Test
     void curvature_ReturnsCorrect() {
-        PathPoint curr = new PathPoint(2, 4);
+        PathPoint curr = new PathPoint(2, 4, 1);
         PathPoint prev = PathPoint.origin();
-        PathPoint next = new PathPoint(5, 5);
+        PathPoint next = new PathPoint(5, 5, 1);
 
         assertEquals(0.2, MathUtils.getCurvature(curr, prev, next), 0.0001);
     }
 
     @Test
     void curvature_StraightLine_ReturnsCorrect() {
-        PathPoint curr = new PathPoint(1, 0);
+        PathPoint curr = new PathPoint(1, 0, 1);
         PathPoint prev = PathPoint.origin();
-        PathPoint next = new PathPoint(2, 0);
+        PathPoint next = new PathPoint(2, 0, 1);
 
         assertEquals(0, MathUtils.getCurvature(curr, prev, next), 0.0001);
     }
@@ -64,8 +64,8 @@ class MathUtilsTest {
 
     @Test
     void distanceTo_ThreeFourTriangleNotOrigin_ReturnsCorrect() {
-        PathPoint origin = new PathPoint(1, 2);
-        PathPoint point = new PathPoint(4, 6);
+        PathPoint origin = new PathPoint(1, 2, 1);
+        PathPoint point = new PathPoint(4, 6, 1);
 
         assertEquals(5, PathPoint.distance(origin, point), 0);
         assertEquals(5, PathPoint.distance(point, origin), 0);
@@ -73,8 +73,8 @@ class MathUtilsTest {
 
     @Test
     void distanceTo_ThreeFourTriangleFullyNegative_ReturnsCorrect() {
-        PathPoint origin = new PathPoint(-1, -2);
-        PathPoint point = new PathPoint(-4, -6);
+        PathPoint origin = new PathPoint(-1, -2, 1);
+        PathPoint point = new PathPoint(-4, -6, 1);
 
         assertEquals(5, PathPoint.distance(origin, point), 0);
         assertEquals(5, PathPoint.distance(point, origin), 0);
@@ -82,8 +82,8 @@ class MathUtilsTest {
 
     @Test
     void distanceTo_ThreeFourTriangleHalfNegative_ReturnsCorrect() {
-        PathPoint origin = new PathPoint(-1, -2);
-        PathPoint point = new PathPoint(2, 2);
+        PathPoint origin = new PathPoint(-1, -2, 1);
+        PathPoint point = new PathPoint(2, 2, 1);
 
         assertEquals(5, PathPoint.distance(origin, point), 0);
         assertEquals(5, PathPoint.distance(point, origin), 0);

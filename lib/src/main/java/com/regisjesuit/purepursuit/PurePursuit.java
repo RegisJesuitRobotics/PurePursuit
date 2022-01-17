@@ -18,7 +18,6 @@ public class PurePursuit implements Sendable {
     private final PurePursuitPath path;
     private final double trackWidthMeters;
     private final Point2d lookaheadPoint = new Point2d(0, 0);
-    private double lookaheadDistance;
     private Pose2d currentPosition = new Pose2d();
     private int closestPointIndex = 0;
     private double lookaheadFractionalIndex = 0;
@@ -26,12 +25,10 @@ public class PurePursuit implements Sendable {
 
     /**
      * @param path              The path to follow
-     * @param lookaheadDistance the lookahead distance (m)
      * @param trackWidthMeters  trackWidth of the robot in meters
      */
-    public PurePursuit(PurePursuitPath path, double lookaheadDistance, double trackWidthMeters) {
+    public PurePursuit(PurePursuitPath path, double trackWidthMeters) {
         this.path = path;
-        this.lookaheadDistance = lookaheadDistance;
         this.trackWidthMeters = trackWidthMeters;
 
         SmartDashboard.putNumber("Length", path.getSize());
@@ -56,7 +53,7 @@ public class PurePursuit implements Sendable {
             PathPoint currentPoint = points.get(i);
             PathPoint nextPoint = points.get(i + 1);
             double intersection = MathUtils.circleIntersectionWithLine(currentPoint.getPoint(), nextPoint.getPoint(),
-                    currentPositionPoint, lookaheadDistance);
+                    currentPositionPoint, points.get(closestPointIndex).getLookaheadDistance());
 
             if (intersection >= 0) {
                 // We don't want to go backwards
@@ -86,7 +83,7 @@ public class PurePursuit implements Sendable {
                 * (lookaheadPoint.x - currentPosition.getX())
                 - Math.cos(currentPosition.getRotation().getRadians()) * (lookaheadPoint.y - currentPosition.getY()));
 
-        this.lookaheadCurvature = (2 * xValue * side) / sqr(lookaheadDistance);
+        this.lookaheadCurvature = (2 * xValue * side) / sqr(path.getPoints().get(closestPointIndex).getLookaheadDistance());
     }
 
     public DifferentialDriveWheelSpeeds calculate(Pose2d currentPosition) {
@@ -125,9 +122,7 @@ public class PurePursuit implements Sendable {
         builder.addDoubleArrayProperty("yValues", () -> yValues, null);
         builder.addDoubleProperty("robotX", () -> currentPosition.getX(), null);
         builder.addDoubleProperty("robotY", () -> currentPosition.getY(), null);
-        builder.addDoubleProperty("lookaheadDistance", () -> lookaheadDistance, value -> {
-            lookaheadDistance = value;
-        });
+        builder.addDoubleProperty("lookaheadDistance", () -> points.get(closestPointIndex).getLookaheadDistance(), null);
         builder.addDoubleProperty("lookaheadCurvature", () -> lookaheadCurvature, null);
         builder.addDoubleProperty("lookaheadX", () -> lookaheadPoint.x, null);
         builder.addDoubleProperty("lookaheadY", () -> lookaheadPoint.y, null);

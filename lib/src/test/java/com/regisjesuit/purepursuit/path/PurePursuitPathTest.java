@@ -11,7 +11,7 @@ class PurePursuitPathTest {
 
     @BeforeEach
     void setUp() {
-        path = new PurePursuitPath(0.625);
+        path = new PurePursuitPath(0.625, 1);
     }
 
     @Test

@@ -1,4 +1,3 @@
 rootProject.name = 'PurePursuit'
 include 'lib'
-include 'simulator'
 include 'ShuffleboardWidget'

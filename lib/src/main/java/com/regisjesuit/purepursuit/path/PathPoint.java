@@ -12,23 +12,25 @@ public class PathPoint {
     private double x;
     private double y;
     private double maxVelocity = 0;
-    private double velocity = 0;
-    private double curvature = 0;
+    private double velocity;
+    private double curvature;
+    private double lookaheadDistance;
 
     /**
      * Creates a path point
      *
      * @param x the x coordinate (meters)
      * @param y the y coordinate (meters)
+     * @param lookaheadDistance the lookahead distance for this point
      */
-    public PathPoint(double x, double y) {
-        this.x = x;
-        this.y = y;
+    public PathPoint(double x, double y, double lookaheadDistance) {
+        this(x, y, lookaheadDistance, 0, 0);
     }
 
-    public PathPoint(double x, double y, double velocity, double curvature) {
+    public PathPoint(double x, double y, double lookaheadDistance, double velocity, double curvature) {
         this.x = x;
         this.y = y;
+        this.lookaheadDistance = lookaheadDistance;
         this.velocity = velocity;
         this.curvature = curvature;
     }
@@ -39,6 +41,7 @@ public class PathPoint {
         this.maxVelocity = pathPoint.getMaxVelocity();
         this.velocity = pathPoint.getVelocity();
         this.curvature = pathPoint.getCurvature();
+        this.lookaheadDistance = pathPoint.getLookaheadDistance();
     }
 
     public Point2d getPoint() {
@@ -46,7 +49,7 @@ public class PathPoint {
     }
 
     public static PathPoint origin() {
-        return new PathPoint(0, 0);
+        return new PathPoint(0, 0, 0);
     }
 
     public static double distance(PathPoint point1, PathPoint point2) {
