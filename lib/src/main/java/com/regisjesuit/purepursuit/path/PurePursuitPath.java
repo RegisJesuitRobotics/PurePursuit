@@ -6,7 +6,6 @@ import static com.regisjesuit.purepursuit.utils.MathUtils.sqr;
 import com.regisjesuit.purepursuit.utils.MathUtils;
 import com.regisjesuit.purepursuit.utils.Vector2d;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,10 +72,12 @@ public class PurePursuitPath {
 
             for (int j = 0; j < amountForStart; j++) {
                 // As we get farther from the original point add more of the additive
-                newPoints.add(new PathPoint(startPoint.getX() + (xAdditive * j), startPoint.getY() + (yAdditive * j), startPoint.getLookaheadDistance()));
+                newPoints.add(new PathPoint(startPoint.getX() + (xAdditive * j), startPoint.getY() + (yAdditive * j),
+                        startPoint.getLookaheadDistance()));
             }
             for (int j = amountForStart; j < amountOfPointsToAdd; j++) {
-                newPoints.add(new PathPoint(startPoint.getX() + (xAdditive * j), startPoint.getY() + (yAdditive * j), endPoint.getLookaheadDistance()));
+                newPoints.add(new PathPoint(startPoint.getX() + (xAdditive * j), startPoint.getY() + (yAdditive * j),
+                        endPoint.getLookaheadDistance()));
             }
         }
         newPoints.add(points.get(points.size() - 1)); // Add the last point

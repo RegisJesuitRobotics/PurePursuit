@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation wpi.deps.wpilib()
+    implementation wpi.java.deps.wpilib()
 }
 
 test {
@@ -32,7 +32,7 @@ jar{
 
 tasks.register("installLibrary", Copy) {
     from(tasks.named("jar"))
-    into("../../AllRobots/libs")
+    into("../../Comp22/libs")
 //    from(tasks.named("sourcesJar"))
 //    into("../../AllRobots/libs")
 }

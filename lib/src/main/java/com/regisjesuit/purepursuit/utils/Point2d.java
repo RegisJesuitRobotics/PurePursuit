@@ -1,6 +1,7 @@
 package com.regisjesuit.purepursuit.utils;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
+
+import edu.wpi.first.math.geometry.Pose2d;
 
 public class Point2d {
     public double x;

@@ -1,17 +1,18 @@
 package com.regisjesuit.purepursuit;
 
-import static com.regisjesuit.purepursuit.utils.MathUtils.sqr;
-
 import com.regisjesuit.purepursuit.path.PathPoint;
 import com.regisjesuit.purepursuit.path.PurePursuitPath;
 import com.regisjesuit.purepursuit.utils.MathUtils;
 import com.regisjesuit.purepursuit.utils.Point2d;
-import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.util.List;
+
+import static com.regisjesuit.purepursuit.utils.MathUtils.sqr;
 
 public class PurePursuit implements Sendable {
 
@@ -24,8 +25,8 @@ public class PurePursuit implements Sendable {
     private double lookaheadCurvature = 0;
 
     /**
-     * @param path              The path to follow
-     * @param trackWidthMeters  trackWidth of the robot in meters
+     * @param path             The path to follow
+     * @param trackWidthMeters trackWidth of the robot in meters
      */
     public PurePursuit(PurePursuitPath path, double trackWidthMeters) {
         this.path = path;
@@ -83,7 +84,8 @@ public class PurePursuit implements Sendable {
                 * (lookaheadPoint.x - currentPosition.getX())
                 - Math.cos(currentPosition.getRotation().getRadians()) * (lookaheadPoint.y - currentPosition.getY()));
 
-        this.lookaheadCurvature = (2 * xValue * side) / sqr(path.getPoints().get(closestPointIndex).getLookaheadDistance());
+        this.lookaheadCurvature = (2 * xValue * side)
+                / sqr(path.getPoints().get(closestPointIndex).getLookaheadDistance());
     }
 
     public DifferentialDriveWheelSpeeds calculate(Pose2d currentPosition) {
@@ -122,7 +124,8 @@ public class PurePursuit implements Sendable {
         builder.addDoubleArrayProperty("yValues", () -> yValues, null);
         builder.addDoubleProperty("robotX", () -> currentPosition.getX(), null);
         builder.addDoubleProperty("robotY", () -> currentPosition.getY(), null);
-        builder.addDoubleProperty("lookaheadDistance", () -> points.get(closestPointIndex).getLookaheadDistance(), null);
+        builder.addDoubleProperty("lookaheadDistance", () -> points.get(closestPointIndex).getLookaheadDistance(),
+                null);
         builder.addDoubleProperty("lookaheadCurvature", () -> lookaheadCurvature, null);
         builder.addDoubleProperty("lookaheadX", () -> lookaheadPoint.x, null);
         builder.addDoubleProperty("lookaheadY", () -> lookaheadPoint.y, null);

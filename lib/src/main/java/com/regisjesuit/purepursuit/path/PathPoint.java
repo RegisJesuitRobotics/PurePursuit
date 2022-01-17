@@ -1,7 +1,7 @@
 package com.regisjesuit.purepursuit.path;
 
 import com.regisjesuit.purepursuit.utils.Point2d;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose2d;
 import lombok.Data;
 
 /**
@@ -19,8 +19,8 @@ public class PathPoint {
     /**
      * Creates a path point
      *
-     * @param x the x coordinate (meters)
-     * @param y the y coordinate (meters)
+     * @param x                 the x coordinate (meters)
+     * @param y                 the y coordinate (meters)
      * @param lookaheadDistance the lookahead distance for this point
      */
     public PathPoint(double x, double y, double lookaheadDistance) {
